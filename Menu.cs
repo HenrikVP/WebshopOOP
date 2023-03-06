@@ -1,37 +1,43 @@
-﻿using System.Reflection.Metadata;
-
-namespace WebshopOOP
+﻿namespace WebshopOOP
 {
     internal class Menu
     {
+        const ConsoleColor cc1 = ConsoleColor.White;
+        const ConsoleColor cc2 = ConsoleColor.Blue;
+        const ConsoleColor cc3 = ConsoleColor.Black;
+
         Data data = new();
 
         public void MainMenu()
         {
             Console.CursorVisible= false;
-            List<string> list = new() { "Show products", "Show Customers"};
+            List<string> list = new() { "Show Products", "Show Customers", "Show Orders"};
             switch (ShowMenu("\n*** Main Menu*** \n", list))
             {
                 case 0: ShowProducts();
                     break;
                 case 1: ShowCustomers();
                     break;
+                    case 2: ShowOrders();
+                    break;
                 default:
                     break;
             }
         }
 
+        private void ShowOrders()
+        {
+            ShowMenu("Show All Orders", data.GetOrders());
+        }
+
         private void ShowCustomers()
         {
-            throw new NotImplementedException();
+            ShowMenu("Show All Customers", data.GetCustomers());
         }
 
         private void ShowProducts()
         {
-            List<string> prod = new();
-            foreach (var item in data.Products)
-                prod.Add(item.ToString());
-            ShowMenu("SHOW PRODUCTS", prod);
+            int selectedProduct = ShowMenu("SHOW PRODUCTS", data.GetProductList());
         }
 
         public int ShowMenu(string Headline, List<string> menuItems)
@@ -40,8 +46,8 @@ namespace WebshopOOP
             int selected = 0;
             while(true)
             {
-                Console.BackgroundColor = ConsoleColor.DarkGray;
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = cc3;
+                Console.ForegroundColor = cc1;
                 Console.Clear();
                 Console.WriteLine(Headline);
 
@@ -49,13 +55,13 @@ namespace WebshopOOP
                 {
                     if (menuItems.IndexOf(item) == selected)
                     {
-                        Console.BackgroundColor = ConsoleColor.Blue;
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.BackgroundColor = cc2;
+                        Console.ForegroundColor = cc1;
                     }
                     else
                     {
-                        Console.BackgroundColor = ConsoleColor.DarkGray;
-                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.BackgroundColor = cc1;
+                        Console.ForegroundColor = cc2;
                     }
                     Console.WriteLine(item);
                 }
